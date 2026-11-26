@@ -112,3 +112,5 @@ details{border-top:1px solid var(--line);padding:10px 0}details summary{cursor:p
 .subj .dsub2{min-height:36px;padding:4px 12px;color:var(--bad)}.subj .dsub{margin-inline-start:auto}
 
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+@media print{.top,.lock,footer,#startBtn{display:none!important}body{background:#fff;color:#000}.card{box-shadow:none;border:1px solid #ccc}}

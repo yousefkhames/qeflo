@@ -41,6 +41,9 @@ for(const lang of ["ar","en"]){
  ok(`[${lang}] practice finishes and closes`,await ev(`!!document.querySelector('#done')`));
  await ev(`document.querySelector('#done').click()`);await sleep(300);
  ok(`[${lang}] practice not logged`,await ev(`JSON.parse(localStorage.getItem('qeflo.state')).log.length===1`));
+ await ev(`(()=>{const st=JSON.parse(localStorage.getItem('qeflo.state'));localStorage.setItem('qeflo.run',JSON.stringify({sid:st.subjects[0].id,mins:1,total:60,end:Date.now()-5000,count:5,pass:80,left:0,strict:false,phase:'study'}))})();location.reload()`);await sleep(1500);
+ ok(`[${lang}] expired session resumes straight into the exam`,await ev(`!!document.querySelector('.q')&&!document.querySelector('#lock').hidden`));
+ await ev(`localStorage.removeItem('qeflo.run');location.reload()`);await sleep(900);
  await ev(`location.hash='#bank'`);await sleep(300);
  await ev(`document.querySelector('#notes').value='Photosynthesis converts light energy into chemical energy inside chloroplasts. Mitochondria produce most of the ATP needed by the cell. Ribosomes assemble proteins from amino acids using messenger RNA. The nucleus stores genetic information as DNA molecules.';document.querySelector('#genBtn').click()`);await sleep(300);
  ok(`[${lang}] generator makes questions`,await ev(`document.querySelectorAll('#genOut .qitem').length>=3`));
