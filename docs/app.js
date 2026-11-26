@@ -38,7 +38,7 @@ function render(){
 $("#newSubject").onkeydown=e=>{if(e.key==="Enter")$("#addSubject").click()};
 $("#addSubject").onclick=()=>{const n=$("#newSubject").value.trim();if(!n)return;S.subjects.push({id:uid(),name:n,qs:[]});$("#newSubject").value="";save();render()};
 $("#mAdd").onclick=()=>{const s=S.subjects.find(x=>x.id===$("#mSubject").value),q=$("#mQ").value.trim(),a=$("#mA").value.trim(),w=["#mB","#mC","#mD"].map(i=>$(i).value.trim()).filter(Boolean);
- if(!s||!q||!a||w.length<1)return;if(s.qs.some(x=>x.q===q))return;s.qs.push({q:q.slice(0,300),a:a.slice(0,120),w:w.map(x=>x.slice(0,120)),e:$("#mE").value.trim()});["#mE","#mQ","#mA","#mB","#mC","#mD"].forEach(i=>$(i).value="");save();render()};
+ if(!s||!q||!a||w.length<1)return;if(s.qs.some(x=>x.q===q))return;s.qs.push({q:q.slice(0,300),a:a.slice(0,120),w:w.map(x=>x.slice(0,120)),e:$("#mE").value.trim()});["#mE","#mQ","#mA","#mB","#mC","#mD"].forEach(i=>$(i).value="");save();render();$("#mQ").focus()};
 
 // Question generator: cloze from notes. Key term = longest capitalised/long word; distractors from other notes' terms.
 function norm(w){return w.replace(/[\u064B-\u0652\u0640]/g,"").replace(/[إأآ]/g,"ا").replace(/ى/g,"ي").replace(/ة/g,"ه")}
