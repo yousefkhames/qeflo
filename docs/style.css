@@ -94,3 +94,6 @@ button,.opt,input,select{min-height:44px}
 
 details{border-top:1px solid var(--line);padding:10px 0}details summary{cursor:pointer;font-weight:700}details p{color:var(--mut);margin:8px 0 0}
 .linkbtn{display:inline-flex;align-items:center;text-decoration:none;border-radius:12px;padding:0 18px;font-weight:700}
+
+.subj summary{display:flex;gap:8px;align-items:center;flex-wrap:wrap;cursor:pointer}.subj .dsub{margin-inline-start:auto;min-height:36px;padding:4px 12px}
+.okc{color:var(--ok)}.dq{min-height:32px;padding:0 10px;margin-inline-start:6px;color:var(--bad)}
