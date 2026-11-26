@@ -17,6 +17,15 @@ Arabic and English · installable PWA · works offline · no account, no trackin
   <img src="assets/mobile-lock.png" width="26%" alt="Lock screen with countdown ring on mobile">
 </p>
 
+## Screenshots
+
+Captured from the live site (https://yousefkhames.github.io/qeflo/).
+
+<p>
+  <img src="docs/screenshots/live-desktop.png" alt="qeflo desktop view" width="640">
+  <img src="docs/screenshots/live-mobile.png" alt="qeflo mobile view" width="200">
+</p>
+
 ## Why
 
 Study apps ask you to promise you will focus. Qeflo makes you prove you studied. You start a session, the screen locks with a countdown, and the only way out is an exam built from your own material. Pass the mark and it unlocks. Miss it and you get the correct answers, wait 20 seconds, and sit a fresh exam where your missed questions come up first.
