@@ -54,7 +54,7 @@
   <div class="card">
     <h2 data-i="bank_h"></h2>
     <div class="row">
-      <input id="newSubject" data-ip="new_subject">
+      <input id="newSubject" dir="auto" data-ip="new_subject">
       <button id="addSubject" class="primary" data-i="add"></button>
     </div>
     <div id="subjectList"></div>
@@ -63,15 +63,15 @@
     <h2 data-i="gen_h"></h2>
     <p class="hint" data-i="gen_p"></p>
     <label><span data-i="subject"></span><select id="genSubject"></select></label>
-    <textarea id="notes" rows="7" data-ip="notes_ph"></textarea>
+    <textarea id="notes" dir="auto" rows="7" data-ip="notes_ph"></textarea>
     <button id="genBtn" class="primary" data-i="gen_btn"></button>
     <div id="genOut"></div>
   </div>
   <div class="card">
     <h2 data-i="manual_h"></h2>
     <label><span data-i="subject"></span><select id="mSubject"></select></label>
-    <input id="mQ" data-ip="q_ph">
-    <div class="grid2"><input id="mA" data-ip="a_right"><input id="mB" data-ip="a_wrong1"><input id="mC" data-ip="a_wrong2"><input id="mD" data-ip="a_wrong3"></div>
+    <input id="mQ" dir="auto" data-ip="q_ph">
+    <div class="grid2"><input id="mA" dir="auto" data-ip="a_right"><input id="mB" dir="auto" data-ip="a_wrong1"><input id="mC" dir="auto" data-ip="a_wrong2"><input id="mD" dir="auto" data-ip="a_wrong3"></div>
     <button id="mAdd" class="primary" data-i="add"></button>
     <div class="row"><button id="exportBtn" class="ghost" data-i="export"></button><label class="ghost filebtn"><span data-i="import"></span><input type="file" id="importFile" accept="application/json" hidden></label></div>
   </div>
