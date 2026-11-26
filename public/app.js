@@ -76,13 +76,13 @@ function fmt(s){s=Math.max(0,s);return String(Math.floor(s/60)).padStart(2,"0")+
 function studyUI(){lockUI(`<p class="muted">🔒 ${t("locked")} · ${esc(run.s.name)}</p><div class="timer" id="tm"></div><div class="bar"><i id="pb"></i></div><p>${t("studying")}</p><p class="muted"><b id="lcnt">${run.left}</b> ${t("left_cnt")}</p><button class="primary" id="early">${t("finish_early")}</button><br><button class="ghost" id="giveup">${t("give_up")}</button>`);
  $("#early").onclick=startExam;$("#giveup").onclick=()=>{if(confirm(t("conf")))end(false,0,run.count,true)};step()}
 function step(){if(!run||run.phase!=="study")return;const r=Math.ceil((run.end-Date.now())/1000);const tm=$("#tm");if(tm){tm.textContent=fmt(r);$("#pb").style.width=(100*(1-r/run.total))+"%"}if(r<=0)startExam()}
-function startExam(){run.phase="exam";clearInterval(tick);run.qs=shuffle(run.s.qs).slice(0,run.count);run.i=0;run.ok=0;showQ()}
+function startExam(){run.phase="exam";clearInterval(tick);run.qs=shuffle(run.s.qs).sort((a,b)=>(b.miss||0)-(a.miss||0)+(Math.random()-.5)).slice(0,run.count);run.wrong=[];run.i=0;run.ok=0;showQ()}
 function showQ(){const q=run.qs[run.i],opts=shuffle([q.a,...shuffle(q.w).slice(0,3)]);
  lockUI(`<p class="muted">${t("exam_time")} · ${t("q_of")} ${run.i+1}/${run.qs.length}</p><div class="bar"><i style="width:${100*run.i/run.qs.length}%"></i></div><div class="q">${esc(q.q)}</div>${opts.map(o=>`<button class="opt" data-o="${esc(o)}">${esc(o)}</button>`).join("")}`);
- $$(".opt").forEach(b=>b.onclick=()=>{const good=b.dataset.o===q.a;if(good)run.ok++;$$(".opt").forEach(x=>{x.disabled=true;if(x.dataset.o===q.a)x.classList.add("right")});if(!good)b.classList.add("wrong");setTimeout(()=>{run.i++;run.i<run.qs.length?showQ():result()},900)})}
+ $$(".opt").forEach(b=>b.onclick=()=>{const good=b.dataset.o===q.a;if(good){run.ok++;if(q.miss)q.miss--}else{q.miss=(q.miss||0)+1;run.wrong.push(q)}$$(".opt").forEach(x=>{x.disabled=true;if(x.dataset.o===q.a)x.classList.add("right")});if(!good)b.classList.add("wrong");setTimeout(()=>{run.i++;run.i<run.qs.length?showQ():result()},900)})}
 function result(){const pct=Math.round(100*run.ok/run.qs.length),ok=pct>=run.pass;
  if(ok){end(true,run.ok,run.qs.length);return}
- lockUI(`<h2>${t("failed")}</h2><p>${t("score")}: <b>${run.ok}/${run.qs.length}</b> (${pct}%) · ${t("need")}: ${run.pass}%</p><button class="primary" id="again" disabled></button>`);
+ lockUI(`<h2>${t("failed")}</h2><p>${t("score")}: <b>${run.ok}/${run.qs.length}</b> (${pct}%) · ${t("need")}: ${run.pass}%</p><div style="text-align:start">${run.wrong.map(q=>`<div class="qitem muted">${esc(q.q)}<br><b style="color:#F5B83D">✔ ${esc(q.a)}</b></div>`).join("")}</div><button class="primary" id="again" disabled></button>`);save();
  let w=20;const b=$("#again");const iv=setInterval(()=>{b.textContent=`${t("wait")} ${w}`;if(w--<=0){clearInterval(iv);b.disabled=false;b.textContent=t("retry")}},1000);b.onclick=()=>{run.attempts=(run.attempts||1)+1;startExam()}}
 function end(passed,ok,total,gaveUp){S.log.push({t:Date.now(),subject:run.s.name,mins:run.mins,passed,score:ok,total,left:run.left,gaveUp:!!gaveUp,attempts:run.attempts||1});save();
  removeEventListener("beforeunload",guard);clearInterval(tick);if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});
@@ -90,6 +90,6 @@ function end(passed,ok,total,gaveUp){S.log.push({t:Date.now(),subject:run.s.name
  lockUI(`<div style="font-size:64px">🔓</div><h2>${t("passed")}</h2><p>${t("score")}: <b>${ok}/${total}</b></p><button class="primary" id="done">${t("unlock")}</button>`);$("#done").onclick=close}
 function close(){$("#lock").hidden=true;document.body.style.overflow="";run=null;render()}
 
-applyLang();route();
+save();applyLang();route();
 if("serviceWorker"in navigator&&location.protocol.startsWith("http"))navigator.serviceWorker.register("sw.js").catch(()=>{});
 })();

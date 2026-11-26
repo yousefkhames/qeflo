@@ -30,3 +30,6 @@ Or open `public/index.html` / host `public/` on any static host (GitHub Pages wo
 - Better Arabic question generation (stemming-aware distractors)
 
 MIT licensed.
+
+## Research notes
+Existing projects looked at (all Android or iOS app blockers gated by flashcards): Passlingo, ProcrastiLearn, AnkiBlock, Gatekeeper (OrenSegal), Scrolliosis, StudyLock. Qeflo differs by gating on a full short exam (pass mark) instead of one card, building the exam from your own notes, Arabic-first UI, and running with no install in a browser. Missed questions come up first in later exams.
