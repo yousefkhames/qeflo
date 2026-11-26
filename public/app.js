@@ -83,7 +83,7 @@ function showQ(){const q=run.qs[run.i],opts=shuffle([q.a,...shuffle(q.w).slice(0
 function result(){const pct=Math.round(100*run.ok/run.qs.length),ok=pct>=run.pass;
  if(ok){end(true,run.ok,run.qs.length);return}
  lockUI(`<h2>${t("failed")}</h2><p>${t("score")}: <b>${run.ok}/${run.qs.length}</b> (${pct}%) · ${t("need")}: ${run.pass}%</p><div style="text-align:start">${run.wrong.map(q=>`<div class="qitem muted">${esc(q.q)}<br><b style="color:#F5B83D">✔ ${esc(q.a)}</b></div>`).join("")}</div><button class="primary" id="again" disabled></button>`);save();
- let w=20;const b=$("#again");const iv=setInterval(()=>{b.textContent=`${t("wait")} ${w}`;if(w--<=0){clearInterval(iv);b.disabled=false;b.textContent=t("retry")}},1000);b.onclick=()=>{run.attempts=(run.attempts||1)+1;startExam()}}
+ let w=20;const b=$("#again");b.textContent=`${t("wait")} 20`;const iv=setInterval(()=>{b.textContent=`${t("wait")} ${w}`;if(w--<=0){clearInterval(iv);b.disabled=false;b.textContent=t("retry")}},1000);b.onclick=()=>{run.attempts=(run.attempts||1)+1;startExam()}}
 function end(passed,ok,total,gaveUp){S.log.push({t:Date.now(),subject:run.s.name,mins:run.mins,passed,score:ok,total,left:run.left,gaveUp:!!gaveUp,attempts:run.attempts||1});save();
  removeEventListener("beforeunload",guard);clearInterval(tick);if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});
  if(gaveUp){close();return}
