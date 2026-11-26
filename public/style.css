@@ -1,0 +1,49 @@
+:root{--bg:#0E1B2E;--bg2:#15263f;--card:#fff;--ink:#0E1B2E;--mut:#5b6b82;--gold:#F5B83D;--gold2:#e19a14;--ok:#1f9d6b;--bad:#d64545;--line:#e3e8f0}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",Tahoma,"Noto Sans Arabic",system-ui,sans-serif;background:var(--bg);color:#fff;line-height:1.6}
+.top{display:flex;justify-content:space-between;align-items:center;padding:14px 22px;position:sticky;top:0;background:rgba(14,27,46,.92);backdrop-filter:blur(8px);z-index:5;border-bottom:1px solid #ffffff14}
+.brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font-weight:800;font-size:20px}
+.brand small{color:var(--gold);font-weight:600;font-size:15px}
+nav{display:flex;gap:6px;align-items:center}
+nav a{color:#cdd7e6;text-decoration:none;padding:8px 12px;border-radius:10px;font-size:15px}
+nav a.on,nav a:hover{background:#ffffff14;color:#fff}
+main{max-width:860px;margin:0 auto;padding:20px 16px 60px}
+.hero{padding:34px 4px 24px}
+.eyebrow{color:var(--gold);font-weight:700;letter-spacing:.04em;margin:0}
+h1{font-size:clamp(30px,6vw,48px);line-height:1.2;margin:8px 0 12px}
+.lead{color:#cdd7e6;font-size:18px;max-width:640px}
+.how{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:22px}
+.how div{background:var(--bg2);border-radius:14px;padding:14px;display:flex;gap:12px;align-items:center}
+.how b{background:var(--gold);color:var(--ink);width:30px;height:30px;border-radius:50%;display:grid;place-items:center;flex:none}
+.card{background:var(--card);color:var(--ink);border-radius:18px;padding:22px;margin:16px 0;box-shadow:0 10px 30px #0004}
+.card h2{margin:0 0 12px;font-size:21px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:560px){.grid2{grid-template-columns:1fr}}
+label{display:block;font-size:14px;color:var(--mut);margin:6px 0}
+input,select,textarea{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:11px;font:inherit;color:var(--ink);background:#fff;margin-top:4px}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--gold);border-color:var(--gold)}
+button{font:inherit;cursor:pointer;border:0;border-radius:12px;padding:11px 18px;font-weight:700}
+.primary{background:var(--gold);color:var(--ink)}.primary:hover{background:var(--gold2)}
+.big{width:100%;margin-top:14px;font-size:18px;padding:15px}
+.ghost{background:transparent;color:inherit;border:1.5px solid #8aa0;padding:8px 14px}
+.card .ghost{border:1.5px solid var(--line);color:var(--ink)}
+nav .ghost{border-color:#ffffff33;color:#fff}
+.filebtn{display:inline-block;cursor:pointer;border-radius:12px;font-weight:700}
+.row{display:flex;gap:10px;margin:10px 0;flex-wrap:wrap}.row input{flex:1;min-width:160px}
+.hint{color:var(--mut);font-size:14px}
+.chip{display:inline-flex;gap:8px;align-items:center;background:#f1f4f9;border-radius:999px;padding:6px 12px;margin:4px;font-size:14px}
+.chip button{background:none;padding:0 4px;color:var(--bad)}
+.qitem{border-top:1px solid var(--line);padding:10px 0;font-size:15px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:14px}
+.kpi{background:#f6f8fc;border-radius:14px;padding:14px}.kpi b{display:block;font-size:26px}
+.lock{position:fixed;inset:0;background:radial-gradient(circle at 50% 20%,#1d3558,#070d18);z-index:50;display:grid;place-items:center;padding:16px;overflow:auto}
+.lockbox{width:min(640px,100%);text-align:center}
+.timer{font-size:clamp(54px,14vw,96px);font-weight:800;font-variant-numeric:tabular-nums;color:var(--gold);margin:8px 0}
+.bar{height:8px;background:#ffffff1f;border-radius:8px;overflow:hidden;margin:10px 0 20px}.bar i{display:block;height:100%;background:var(--gold);width:0}
+.opt{display:block;width:100%;text-align:start;background:#ffffff12;color:#fff;border:1.5px solid #ffffff22;margin:8px 0;padding:14px;border-radius:14px}
+.opt:hover{border-color:var(--gold)}.opt.right{background:#1f9d6b55;border-color:var(--ok)}.opt.wrong{background:#d6454555;border-color:var(--bad)}
+.q{font-size:21px;font-weight:700;margin:10px 0 14px;text-align:start}
+.muted{color:#9fb0c9}
+.lock .primary{margin-top:14px}.lock .ghost{color:#9fb0c9;border-color:#ffffff22;margin-top:14px}
+footer{text-align:center;color:#7e91ad;font-size:13px;padding:24px}
+[hidden]{display:none!important}
