@@ -91,3 +91,6 @@ button,.opt,input,select{min-height:44px}
 .opt{transition:transform .12s,border-color .12s}.opt:active{transform:scale(.98)}
 .lockbox{animation:rise .35s ease}@keyframes rise{from{opacity:0;transform:translateY(12px)}}
 .card{transition:transform .2s}.card:hover{transform:translateY(-2px)}
+
+details{border-top:1px solid var(--line);padding:10px 0}details summary{cursor:pointer;font-weight:700}details p{color:var(--mut);margin:8px 0 0}
+.linkbtn{display:inline-flex;align-items:center;text-decoration:none;border-radius:12px;padding:0 18px;font-weight:700}
