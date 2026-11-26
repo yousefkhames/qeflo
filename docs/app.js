@@ -35,7 +35,7 @@ function render(){
 
 $("#addSubject").onclick=()=>{const n=$("#newSubject").value.trim();if(!n)return;S.subjects.push({id:uid(),name:n,qs:[]});$("#newSubject").value="";save();render()};
 $("#mAdd").onclick=()=>{const s=S.subjects.find(x=>x.id===$("#mSubject").value),q=$("#mQ").value.trim(),a=$("#mA").value.trim(),w=["#mB","#mC","#mD"].map(i=>$(i).value.trim()).filter(Boolean);
- if(!s||!q||!a||w.length<1)return;s.qs.push({q,a,w});["#mQ","#mA","#mB","#mC","#mD"].forEach(i=>$(i).value="");save();render()};
+ if(!s||!q||!a||w.length<1)return;if(s.qs.some(x=>x.q===q))return;s.qs.push({q,a,w});["#mQ","#mA","#mB","#mC","#mD"].forEach(i=>$(i).value="");save();render()};
 
 // Question generator: cloze from notes. Key term = longest capitalised/long word; distractors from other notes' terms.
 function norm(w){return w.replace(/[\u064B-\u0652\u0640]/g,"").replace(/[إأآ]/g,"ا").replace(/ى/g,"ي").replace(/ة/g,"ه")}
@@ -55,7 +55,7 @@ function genQuestions(text){
  return out}
 $("#genBtn").onclick=()=>{const s=S.subjects.find(x=>x.id===$("#genSubject").value);const qs=genQuestions($("#notes").value);
  if(!qs.length){$("#genOut").innerHTML=`<p class="hint">${t("gen_none")}</p>`;return}
- s.qs.push(...qs);save();$("#notes").value="";render();$("#genOut").innerHTML=`<p class="hint">${t("gen_ok")} ${qs.length}</p>`+qs.slice(0,5).map(q=>`<div class="qitem">${esc(q.q)} <b>→ ${esc(q.a)}</b></div>`).join("")};
+ const seen=new Set(s.qs.map(x=>x.q));const fresh=qs.filter(x=>!seen.has(x.q));if(!fresh.length){$("#genOut").innerHTML=`<p class="hint">${t("gen_none")}</p>`;return}s.qs.push(...fresh);save();$("#notes").value="";render();$("#genOut").innerHTML=`<p class="hint">${t("gen_ok")} ${fresh.length}</p>`+fresh.slice(0,5).map(q=>`<div class="qitem">${esc(q.q)} <b>→ ${esc(q.a)}</b></div>`).join("")};
 $("#matBtn").onclick=()=>{const s=S.subjects.find(x=>x.id===$("#genSubject").value),n=$("#notes").value.trim();if(!s||!n)return;s.notes=((s.notes||"")+"\n"+n).trim();save();$("#genOut").innerHTML=`<p class="hint">${t("mat_saved")}</p>`};
 $$(".pre").forEach(b=>b.onclick=()=>{$("#minutes").value=b.dataset.m});
 $("#shareBtn").onclick=async()=>{const u="https://yousefkhames.github.io/qeflo/",d={title:"Qeflo",text:t("h1"),url:u};try{if(navigator.share)await navigator.share(d);else{await navigator.clipboard.writeText(u);$("#shareBtn").textContent=t("shared")}}catch(e){}};
