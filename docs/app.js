@@ -73,6 +73,14 @@ function renderStats(){const L=S.log,ok=L.filter(l=>l.passed).length,st=streaks(
  $("#history").innerHTML=wk+bs+(L.length?`<h3>${t("sessions")}</h3>`+L.slice(-15).reverse().map(l=>`<div class="qitem">${l.passed?"✅":"❌"} <span dir="auto">${esc(l.subject)}</span> · ${l.mins} min · ${l.score}/${l.total}${l.left?` · ${l.left} ${t("leftn")}`:""} · ${new Date(l.t).toLocaleString(lang==="ar"?"ar-EG":"en-GB")}</div>`).join("")+`<button class="ghost" id="clearLog">${t("clear")}</button>`:`<p class="hint">${t("none")}</p>`);
  const c=$("#clearLog");if(c)c.onclick=()=>{if(confirm(t("clear")+"?")){S.log=[];save();render()}}}
 
+// Sound and haptics
+let mute=localStorage.getItem("qeflo.mute")==="1";let AC=null;
+function beep(f,d,type){if(mute)return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.type=type||"sine";o.frequency.value=f;g.gain.value=.06;o.connect(g);g.connect(AC.destination);o.start();g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+d);o.stop(AC.currentTime+d)}catch(e){}}
+const buzz=p=>{if(!mute&&navigator.vibrate)navigator.vibrate(p)};
+const sfx={good(){beep(660,.15);setTimeout(()=>beep(880,.2),110);buzz(30)},bad(){beep(180,.3,"square");buzz([60,40,60])},win(){[523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,.25),i*120));buzz([40,30,40,30,120])}};
+function syncSnd(){const b=$("#snd");b.textContent=mute?"🔇":"🔊";b.setAttribute("aria-pressed",String(!mute))}
+$("#snd").onclick=()=>{mute=!mute;localStorage.setItem("qeflo.mute",mute?"1":"0");syncSnd();if(!mute)sfx.good()};syncSnd();
+function confetti(){const box=document.createElement("div");box.className="confetti";box.setAttribute("aria-hidden","true");const cols=["#F5B83D","#1f9d6b","#4aa3ff","#ff6b8a","#fff"];for(let i=0;i<60;i++){const s=document.createElement("i");s.style.cssText=`left:${Math.random()*100}%;background:${cols[i%5]};animation-delay:${Math.random()*.6}s;animation-duration:${1.6+Math.random()*1.4}s;transform:rotate(${Math.random()*360}deg)`;box.appendChild(s)}$("#lock").appendChild(box);setTimeout(()=>box.remove(),3500)}
 // Lock session
 let run=null,tick=null;
 const guard=e=>{e.preventDefault();e.returnValue=""};
@@ -90,14 +98,14 @@ function begin(r){run=r;persist();
  if(run.phase==='exam'){startExam()}else studyUI();clearInterval(tick);tick=setInterval(step,500);try{navigator.wakeLock&&navigator.wakeLock.request('screen').then(w=>{run.wl=w}).catch(()=>{})}catch(e){}}
 document.addEventListener("visibilitychange",()=>{if(run&&run.phase==="study"&&document.hidden){run.left++;if(run.strict){run.end+=30000;run.total+=30}persist();const e=$("#lcnt");if(e)e.textContent=run.left;const p=$("#pen");if(p&&run.strict)p.textContent=t("penalty")}});
 function fmt(s){s=Math.max(0,s);return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")}
-function studyUI(){lockUI(`<p class="muted">🔒 ${t("locked")} · ${esc(run.s.name)}</p><div class="timer" id="tm"></div><div class="bar"><i id="pb"></i></div><p>${t("studying")}</p><p class="muted"><b id="lcnt">${run.left}</b> ${t("left_cnt")} <span id="pen" style="color:#F5B83D"></span></p>${run.s.notes?`<details class="mat" open><summary>${t("material")}</summary><div dir="auto">${esc(run.s.notes).replace(/\n/g,"<br>")}</div></details>`:""}<button class="primary" id="early">${t("finish_early")}</button><br><button class="ghost" id="giveup">${t("give_up")}</button>`);
+function studyUI(){lockUI(`<p class="muted">🔒 ${t("locked")} · ${esc(run.s.name)}</p><div class="ringwrap"><svg class="ring" viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="54" class="rb"/><circle cx="60" cy="60" r="54" class="rf" id="rf"/></svg><div class="timer" id="tm" role="timer"></div></div><p>${t("studying")}</p><p class="muted"><b id="lcnt">${run.left}</b> ${t("left_cnt")} <span id="pen" style="color:#F5B83D"></span></p>${run.s.notes?`<details class="mat" open><summary>${t("material")}</summary><div dir="auto">${esc(run.s.notes).replace(/\n/g,"<br>")}</div></details>`:""}<button class="primary" id="early">${t("finish_early")}</button><br><button class="ghost" id="giveup">${t("give_up")}</button>`);
  $("#early").onclick=startExam;$("#giveup").onclick=()=>{if(confirm(t("conf")))end(false,0,run.count,true)};step()}
-function step(){if(!run||run.phase!=="study")return;const r=Math.ceil((run.end-Date.now())/1000);const tm=$("#tm");if(tm){tm.textContent=fmt(r);$("#pb").style.width=(100*(1-r/run.total))+"%"}if(r<=0)startExam()}
+function step(){if(!run||run.phase!=="study")return;const r=Math.ceil((run.end-Date.now())/1000);const tm=$("#tm");if(tm){tm.textContent=fmt(r);$("#rf").style.strokeDashoffset=339.3*(r/run.total)}if(r<=0)startExam()}
 function startExam(){run.phase="exam";persist();clearInterval(tick);const gen=run.s.notes?shuffle(genQuestions(run.s.notes)).slice(0,Math.floor(run.count*0.4)):[];
  run.qs=shuffle([...shuffle(run.s.qs).sort((a,b)=>(b.miss||0)-(a.miss||0)+(Math.random()-.5)).slice(0,run.count-gen.length),...gen]);run.wrong=[];run.i=0;run.ok=0;showQ()}
 function showQ(){const q=run.qs[run.i],opts=shuffle([q.a,...shuffle(q.w).slice(0,3)]);
  lockUI(`<p class="muted">${t("exam_time")} · ${t("q_of")} ${run.i+1}/${run.qs.length}</p><div class="bar"><i style="width:${100*run.i/run.qs.length}%"></i></div><div class="q" dir="auto">${esc(q.q)}</div>${opts.map((o,i)=>`<button class="opt" data-o="${esc(o)}"><kbd>${i+1}</kbd><span dir="auto">${esc(o)}</span></button>`).join("")}`);
- $$(".opt").forEach(b=>b.onclick=()=>{const good=b.dataset.o===q.a;if(good){run.ok++;if(q.miss)q.miss--}else{q.miss=(q.miss||0)+1;run.wrong.push(q)}$$(".opt").forEach(x=>{x.disabled=true;if(x.dataset.o===q.a)x.classList.add("right")});if(!good)b.classList.add("wrong");setTimeout(()=>{run.i++;run.i<run.qs.length?showQ():result()},900)})}
+ $$(".opt").forEach(b=>b.onclick=()=>{const good=b.dataset.o===q.a;if(good){sfx.good();run.ok++;if(q.miss)q.miss--}else{sfx.bad();q.miss=(q.miss||0)+1;run.wrong.push(q)}$$(".opt").forEach(x=>{x.disabled=true;if(x.dataset.o===q.a)x.classList.add("right")});if(!good)b.classList.add("wrong");setTimeout(()=>{run.i++;run.i<run.qs.length?showQ():result()},900)})}
 function result(){const pct=Math.round(100*run.ok/run.qs.length),ok=pct>=run.pass;
  if(ok){end(true,run.ok,run.qs.length);return}
  lockUI(`<h2>${t("failed")}</h2><p>${t("score")}: <b>${run.ok}/${run.qs.length}</b> (${pct}%) · ${t("need")}: ${run.pass}%</p><div style="text-align:start">${run.wrong.map(q=>`<div class="qitem muted">${esc(q.q)}<br><b style="color:#F5B83D">✔ ${esc(q.a)}</b></div>`).join("")}</div><button class="primary" id="again" disabled></button>`);save();
@@ -105,7 +113,7 @@ function result(){const pct=Math.round(100*run.ok/run.qs.length),ok=pct>=run.pas
 function end(passed,ok,total,gaveUp){try{run.wl&&run.wl.release()}catch(e){}localStorage.removeItem("qeflo.run");S.log.push({t:Date.now(),subject:run.s.name,mins:run.mins,passed,score:ok,total,left:run.left,gaveUp:!!gaveUp,attempts:run.attempts||1});save();
  removeEventListener("beforeunload",guard);clearInterval(tick);if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});
  if(gaveUp){close();return}
- lockUI(`<div style="font-size:64px">🔓</div><h2>${t("passed")}</h2><p>${t("score")}: <b>${ok}/${total}</b></p><button class="primary" id="done">${t("unlock")}</button>`);$("#done").onclick=close}
+ sfx.win();confetti();lockUI(`<div class="pop" style="font-size:64px">🔓</div><h2>${t("passed")}</h2><p>${t("score")}: <b>${ok}/${total}</b></p><button class="primary" id="done">${t("unlock")}</button>`);$("#done").onclick=close}
 function close(){$("#lock").hidden=true;document.body.style.overflow="";run=null;render()}
 
 save();document.addEventListener("keydown",e=>{if(!run||run.phase!=="exam")return;const n=+e.key;if(n>=1&&n<=4){const b=$$(".opt")[n-1];if(b&&!b.disabled)b.click()}});

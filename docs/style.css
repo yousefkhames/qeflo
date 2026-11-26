@@ -79,3 +79,15 @@ button,.opt,input,select{min-height:44px}
 .rowb{display:flex;justify-content:space-between}.mini{height:6px;background:var(--line);border-radius:6px;margin-top:6px;overflow:hidden}.mini i{display:block;height:100%;background:var(--ok)}
 
 .chk{display:flex;gap:10px;align-items:center;margin-top:12px;color:var(--ink);font-size:15px}.chk input{width:22px;height:22px;min-height:0;margin:0}
+
+.ringwrap{position:relative;width:min(300px,78vw);aspect-ratio:1;margin:12px auto}
+.ring{position:absolute;inset:0;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:6}.rb{stroke:#ffffff1c}.rf{stroke:var(--gold);stroke-linecap:round;stroke-dasharray:339.3;stroke-dashoffset:339.3;transition:stroke-dashoffset .5s linear}
+.ringwrap .timer{position:absolute;inset:0;display:grid;place-items:center;margin:0;font-size:clamp(44px,13vw,70px)}
+.confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:60}
+.confetti i{position:absolute;top:-20px;width:9px;height:16px;border-radius:2px;animation:fall linear forwards}
+@keyframes fall{to{top:105%;transform:translateX(40px) rotate(720deg)}}
+.pop{animation:pop .5s cubic-bezier(.2,1.6,.4,1)}@keyframes pop{from{transform:scale(.2);opacity:0}}
+.opt{transition:transform .12s,border-color .12s}.opt:active{transform:scale(.98)}
+.lockbox{animation:rise .35s ease}@keyframes rise{from{opacity:0;transform:translateY(12px)}}
+.card{transition:transform .2s}.card:hover{transform:translateY(-2px)}
