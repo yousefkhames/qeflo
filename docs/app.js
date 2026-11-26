@@ -35,6 +35,7 @@ function render(){
  $$(".dq").forEach(b=>b.onclick=()=>{const s=S.subjects.find(x=>x.id===b.dataset.s);s.qs.splice(+b.dataset.i,1);save();render();const d=$$(".subj").find(x=>x.querySelector(`[data-del="${s.id}"]`));if(d)d.open=true});
  renderStats()}
 
+$("#newSubject").onkeydown=e=>{if(e.key==="Enter")$("#addSubject").click()};
 $("#addSubject").onclick=()=>{const n=$("#newSubject").value.trim();if(!n)return;S.subjects.push({id:uid(),name:n,qs:[]});$("#newSubject").value="";save();render()};
 $("#mAdd").onclick=()=>{const s=S.subjects.find(x=>x.id===$("#mSubject").value),q=$("#mQ").value.trim(),a=$("#mA").value.trim(),w=["#mB","#mC","#mD"].map(i=>$(i).value.trim()).filter(Boolean);
  if(!s||!q||!a||w.length<1)return;if(s.qs.some(x=>x.q===q))return;s.qs.push({q,a,w,e:$("#mE").value.trim()});["#mE","#mQ","#mA","#mB","#mC","#mD"].forEach(i=>$(i).value="");save();render()};
