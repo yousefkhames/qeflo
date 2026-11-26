@@ -77,3 +77,5 @@ button,.opt,input,select{min-height:44px}
 .chart i{display:block;width:100%;max-width:38px;background:linear-gradient(var(--gold),var(--gold2));border-radius:8px 8px 3px 3px;min-height:3px}
 .chart b{font-size:12px;position:absolute;top:0}.chart span{font-size:12px;color:var(--mut);margin-top:4px}
 .rowb{display:flex;justify-content:space-between}.mini{height:6px;background:var(--line);border-radius:6px;margin-top:6px;overflow:hidden}.mini i{display:block;height:100%;background:var(--ok)}
+
+.chk{display:flex;gap:10px;align-items:center;margin-top:12px;color:var(--ink);font-size:15px}.chk input{width:22px;height:22px;min-height:0;margin:0}
