@@ -65,3 +65,8 @@ button,.opt,input,select{min-height:44px}
  #startBtn{position:sticky;bottom:calc(10px + env(safe-area-inset-bottom));box-shadow:0 8px 24px #0006}
  .card{padding:16px;border-radius:16px}
 }
+
+.presets{display:flex;gap:6px;margin-top:6px}.presets .chip{margin:0;border:0;cursor:pointer;min-height:36px;font-weight:700;color:var(--ink)}
+.presets .chip:hover{background:var(--gold)}
+.mat{text-align:start;background:#ffffff0d;border-radius:14px;padding:10px 14px;margin-top:16px;max-height:34vh;overflow:auto;font-size:15px;line-height:1.8}
+.mat summary{cursor:pointer;color:var(--gold);font-weight:700}
