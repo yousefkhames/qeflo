@@ -106,3 +106,5 @@ details{border-top:1px solid var(--line);padding:10px 0}details summary{cursor:p
 }
 
 @media(max-width:560px){#startBtn{margin-top:18px}.card{scroll-margin-bottom:90px}main{padding-bottom:90px}}
+
+.goal{margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--line)}.goal .mini{height:10px}
