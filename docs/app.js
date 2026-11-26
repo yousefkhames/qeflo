@@ -47,7 +47,7 @@ function genQuestions(text){
  const pool=[...new Set(sents.flatMap(words))];
  const isAr=w=>/[\u0600-\u06FF]/.test(w);
  const out=[];
- for(const s of sents){const ws=words(s);if(!ws.length)continue;
+ for(const s of sents){const ws=words(s).filter(w=>w.length>=4);if(!ws.length)continue;
   const key=[...ws].sort((a,b)=>((/^[A-Z0-9]/.test(b)||/\d/.test(b))-(/^[A-Z0-9]/.test(a)||/\d/.test(a)))||b.length-a.length)[0];
   const d=shuffle(pool.filter(p=>stem(p)!==stem(key)&&isAr(p)===isAr(key)&&Math.abs(p.length-key.length)<=4)).slice(0,3);
   if(d.length<3)continue;
