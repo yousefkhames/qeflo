@@ -1,6 +1,6 @@
-// Zero-dependency backend: serves /public and stores state per device id in data/*.json
+// Zero-dependency backend: serves /docs and stores state per device id in data/*.json
 const http=require("http"),fs=require("fs"),path=require("path");
-const PUB=path.join(__dirname,"..","public"),DATA=path.join(__dirname,"..","data");
+const PUB=path.join(__dirname,"..","docs"),DATA=path.join(__dirname,"..","data");
 fs.mkdirSync(DATA,{recursive:true});
 const MIME={".html":"text/html",".js":"text/javascript",".css":"text/css",".svg":"image/svg+xml",".webmanifest":"application/manifest+json"};
 http.createServer((req,res)=>{

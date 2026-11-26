@@ -19,7 +19,7 @@ A study lock that stays locked until you pass a short exam on what you just stud
 ```
 npm start      # http://localhost:3000
 ```
-Or open `public/index.html` / host `public/` on any static host (GitHub Pages works). Without the backend the app uses localStorage only.
+Or open `docs/index.html` / host `docs/` on any static host (GitHub Pages works). Without the backend the app uses localStorage only.
 
 **Honest limits**: a web page cannot lock the whole phone. This version locks the Qeflo page, warns before leaving, and logs when you leave. System-wide locking is the Android roadmap below.
 
