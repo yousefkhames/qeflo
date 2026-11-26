@@ -47,3 +47,21 @@ nav .ghost{border-color:#ffffff33;color:#fff}
 .lock .primary{margin-top:14px}.lock .ghost{color:#9fb0c9;border-color:#ffffff22;margin-top:14px}
 footer{text-align:center;color:#7e91ad;font-size:13px;padding:24px}
 [hidden]{display:none!important}
+
+.skip{position:absolute;inset-inline-start:8px;top:-60px;background:var(--gold);color:var(--ink);padding:10px 14px;border-radius:10px;z-index:100;font-weight:700}
+.skip:focus{top:8px}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.card :focus-visible{outline-color:#b97800}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+body{padding-inline:env(safe-area-inset-left) env(safe-area-inset-right);min-height:100dvh}
+.top{padding-top:calc(14px + env(safe-area-inset-top))}
+.lock{min-height:100dvh;padding-bottom:calc(16px + env(safe-area-inset-bottom))}
+button,.opt,input,select{min-height:44px}
+.opt{display:flex;gap:10px;align-items:center}
+.opt kbd{background:#ffffff1f;border-radius:6px;padding:0 8px;font-size:13px;color:var(--gold)}
+@media(max-width:560px){
+ .top{padding-inline:12px}nav a{padding:8px 8px;font-size:14px}.brand small{display:none}
+ .hero{padding-top:18px}
+ #startBtn{position:sticky;bottom:calc(10px + env(safe-area-inset-bottom));box-shadow:0 8px 24px #0006}
+ .card{padding:16px;border-radius:16px}
+}
