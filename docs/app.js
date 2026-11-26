@@ -10,11 +10,11 @@ const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 let lang=localStorage.getItem("qeflo.lang")||((navigator.language||"ar").toLowerCase().startsWith("ar")?"ar":"en");
 const t=k=>T[lang][k]||k;
 let S=load();
-function load(){try{const s=JSON.parse(localStorage.getItem("qeflo.state"));if(s&&s.subjects)return s}catch(e){}
+function load(){try{const s=JSON.parse(localStorage.getItem("qeflo.state"));if(s&&Array.isArray(s.subjects)){s.log=Array.isArray(s.log)?s.log:[];s.subjects=s.subjects.filter(x=>x&&typeof x.name==="string").map(x=>({id:x.id||uid(),name:x.name,notes:x.notes||"",qs:(Array.isArray(x.qs)?x.qs:[]).filter(q=>q&&q.q&&q.a&&Array.isArray(q.w))}));return s}}catch(e){try{localStorage.setItem("qeflo.state.corrupt",localStorage.getItem("qeflo.state"))}catch(_){}}
  return{subjects:SEED.map(([n,qs])=>({id:uid(),name:n,qs:qs.map(q=>({q:q[0],a:q[1],w:q.slice(2)}))})),log:[]}}
 function dev(){let d=localStorage.getItem("qeflo.dev");if(!d){d=uid()+uid()+uid();localStorage.setItem("qeflo.dev",d)}return d}
 function uid(){return Math.random().toString(36).slice(2,9)}
-function save(){localStorage.setItem("qeflo.state",JSON.stringify(S));fetch("api/state",{method:"PUT",headers:{"content-type":"application/json","x-device":dev()},body:JSON.stringify(S)}).catch(()=>{})}
+function save(){try{localStorage.setItem("qeflo.state",JSON.stringify(S))}catch(e){}fetch("api/state",{method:"PUT",headers:{"content-type":"application/json","x-device":dev()},body:JSON.stringify(S)}).catch(()=>{})}
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
 
