@@ -1,1 +1,1 @@
-{"name":"qeflo","version":"0.1.0","description":"Study lock that only unlocks after you pass an exam on what you studied.","scripts":{"start":"node server/server.js"},"license":"MIT"}
+{"name":"qeflo","version":"0.1.0","description":"Study lock that only unlocks after you pass an exam on what you studied.","scripts":{"start":"node server/server.js","test":"node tests/e2e.mjs"},"license":"MIT"}
