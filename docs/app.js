@@ -7,7 +7,7 @@ const SEED=[
 ["علوم عامة",[["ما العضية المسؤولة عن إنتاج الطاقة في الخلية؟","الميتوكوندريا","النواة","الريبوسومات","جهاز جولجي"],["ما الغاز الذي تمتصه النباتات في عملية البناء الضوئي؟","ثاني أكسيد الكربون","الأكسجين","النيتروجين","الهيدروجين"],["كم عدد كواكب المجموعة الشمسية؟","8","7","9","10"],["ما الرمز الكيميائي للماء؟","H2O","CO2","O2","NaCl"],["ما أسرع حيوان بري؟","الفهد","الأسد","الغزال","النمر"]]],
 ["English Grammar",[["She ___ to school every day.","goes","go","going","gone"],["Choose the correct form: They ___ playing football now.","are","is","am","be"],["The past tense of 'buy' is:","bought","buyed","boughten","buying"],["Which word is a noun?","happiness","quickly","beautiful","run"],["I have lived here ___ 2020.","since","for","from","during"]]]];
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
-let lang=localStorage.getItem("qeflo.lang")||"ar";
+let lang=localStorage.getItem("qeflo.lang")||((navigator.language||"ar").toLowerCase().startsWith("ar")?"ar":"en");
 const t=k=>T[lang][k]||k;
 let S=load();
 function load(){try{const s=JSON.parse(localStorage.getItem("qeflo.state"));if(s&&s.subjects)return s}catch(e){}
